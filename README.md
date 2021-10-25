@@ -67,4 +67,5 @@ Verify it's working by using GET
 ![](https://i.gyazo.com/9eb1a7e360ba0ff700d7bedc7beaef5f.png)
 
 Ref:
-    * https://art-of-engineer.blogspot.com/2021/06/python-django-postgresql-rest-api.html
+    
+* https://art-of-engineer.blogspot.com/2021/06/python-django-postgresql-rest-api.html
