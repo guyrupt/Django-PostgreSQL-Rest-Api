@@ -12,6 +12,10 @@ https://docs.djangoproject.com/en/3.2/ref/settings/
 
 from pathlib import Path
 
+import os
+from decouple import config
+import dj_database_url
+
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
 
@@ -20,10 +24,10 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 # See https://docs.djangoproject.com/en/3.2/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = 'django-insecure-4qk+h*+a@rxxw5pbma(pcw9j4+c@hq2q4q2%x@i)4$h)0576z^'
+SECRET_KEY = config('SECRET_KEY')
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+DEBUG = config('DEBUG', default=False, cast=bool)
 
 ALLOWED_HOSTS = []
 
@@ -80,22 +84,26 @@ WSGI_APPLICATION = 'DjangoAPI.wsgi.application'
 # https://docs.djangoproject.com/en/3.2/ref/settings/#databases
 
 DATABASES = {
-    'default': {
-        'ENGINE': 'django.db.backends.postgresql',
-        'NAME': 'project_db',
-        'USER': 'postgres',
-        'PASSWORD': '!Password',
-        'HOST': 'imdb-midterm-postgres.postgres.database.azure.com',
-        'PORT': '5432'
+    
+    'default':dj_database_url.config(default=config('DATABASE_URL'))
 
-        #local host
+    # explicit
+    # 'default': {
+    #     'ENGINE': 'django.db.backends.postgresql',
+    #     'NAME': '',
+    #     'USER': '',
+    #     'PASSWORD': '',
+    #     'HOST': '',
+    #     'PORT': ''
+
+        # local host
         # 'ENGINE': 'django.db.backends.postgresql',
         # 'NAME': 'midterm_test',
         # 'USER': 'postgres',
         # 'PASSWORD': '0110',
         # 'HOST': 'localhost',
         # 'PORT': '5432'
-    }
+    # }
 }
 
 
