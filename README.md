@@ -8,7 +8,7 @@ Clone this repo, then in the directory run
 
 If pipenv is not installed, run `pip install pipenv`
 
-Run `pip -V` to make sure your on virtual environment, output should be like
+Run `pip -V` to make sure you are on virtual environment, output should be like
 
 ```
 pip 21.2.4 from {your_user_dir}\.virtualenvs\imdb_mid_project-ybDDyv4O\lib\site-packages\pip (python 3.9)
