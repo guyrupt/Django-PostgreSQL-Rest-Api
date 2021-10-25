@@ -1,5 +1,7 @@
 # Django PostgreSQL Rest Api
 
+Prereqs: Python 3.9
+
 Clone this repo, then in the directory run
 
     pipenv install
