@@ -47,6 +47,7 @@ def apiOverview(request):
 @api_view(['GET'])
 def tableList(request):
     table_data = table1.objects.all()
+    print(table_data)
     table_serializer = table1Serializer(table_data, many=True)
     return Response(table_serializer.data)
 
