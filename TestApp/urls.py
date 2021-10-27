@@ -3,5 +3,7 @@ from TestApp import views
 
 
 urlpatterns = [
-    path('', views.table1Api),
+    path('', views.apiOverview),
+    path('tablelist/', views.tableList, name='tablelist'),
+    path('tablelist/<str:pk>', views.tableItem, name= 'tableItem')
 ]
