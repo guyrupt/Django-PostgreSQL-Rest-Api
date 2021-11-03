@@ -5,9 +5,6 @@ from django.db.models.fields.related import ForeignKey, ManyToManyField
 
 # Create your models here.
 
-class table1(models.Model):
-    tb1Id = models.AutoField(primary_key=True)
-    tb1Name = models.CharField(max_length=500)
 
 class Company(models.Model):
     company_name = models.CharField(max_length=255)
@@ -55,6 +52,7 @@ class Acad_level(models.Model):
 
     def __str__(self):
         return self.acad_level
+        
 class Employee(models.Model):
     timestamp = models.DateTimeField()
     yearsofexperience = models.IntegerField()

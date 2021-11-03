@@ -1,7 +1,43 @@
+from django.db.models import fields
 from rest_framework import serializers
-from TestApp.models import table1
+from .models import *
 
-class table1Serializer(serializers.ModelSerializer):
+
+class CompanySerializer(serializers.ModelSerializer):
     class Meta:
-        model = table1
-        fields = (['tb1Id', 'tb1Name']) # fields that intended to be seen
+        model = Company
+        fields = '__all__'
+
+class LocationSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Location
+        fields = '__all__'
+
+class TagSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Tag
+        fields = '__all__'
+
+class LevelSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Level
+        fields = '__all__' 
+
+class GenderSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Gender
+        fields = '__all__'
+
+class RaceSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Race
+        fields = '__all__'
+class Acad_levelSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Acad_level
+        fields = '__all__'
+
+class EmployeeSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Employee
+        fields = '__all__'
