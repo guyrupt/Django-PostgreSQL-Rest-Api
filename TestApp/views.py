@@ -22,10 +22,8 @@ def apiOverview(request):
 def addInstance(request):
     data = JSONParser().parse(request)
     
-    company_data = {}
-    company_data['company_name'] = data['company.name']
-    company_data['icon_url'] = data['company.icon']
-    company, _ = Company.objects.get_or_create(company_data)
+    company, _ = Company.objects.get_or_create(company_name=data['company.name'],
+    icon_url=data['company.icon'])
 
     location, _ = Location.objects.get_or_create(location_name=data['location'])
     location.company.add(company)
