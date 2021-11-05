@@ -8,7 +8,6 @@ from rest_framework.response import Response
 from rest_framework import status
 
 from .models import *
-from .serializers import * 
 # Create your views here.
 
 @api_view(['GET'])
@@ -22,5 +21,43 @@ def apiOverview(request):
 @api_view(['POST'])
 def addInstance(request):
     data = JSONParser().parse(request)
-    print(type(data))
-    return Response(data , status=status.HTTP_201_CREATED)
+    
+    company_data = {}
+    company_data['company_name'] = data['company.name']
+    company_data['icon_url'] = data['company.icon']
+    company, _ = Company.objects.get_or_create(company_data)
+
+    location, _ = Location.objects.get_or_create(location_name=data['location'])
+    location.company.add(company)
+
+    tag, _ = Tag.objects.get_or_create(tag_name=data['tag'])
+    tag.company.add(company)
+
+    level, _ = Level.objects.get_or_create(level_name=data['level'], 
+    company=company)
+
+    gender, _ = Gender.objects.get_or_create(gender=data['gender'])
+    race, _ = Race.objects.get_or_create(race=data['Race'])
+    academic_level, _ = Acad_level.objects.get_or_create(acad_level=data['Academic Level'])
+    
+    dbo = lambda x: True if x else False
+    remote = dbo(data['Remote'])
+
+    employee = Employee.objects.create(
+        timestamp=data['timestamp'],
+        yearsofexperience = data['yearsofexperience'],
+        yearsatcompany = data['yearsatcompany'],
+        totalyearlycompensation = data['totalyearlycompensation'],
+        base_salary = data['basesalary'],
+        stockgrantvalue = data['stockgrantvalue'],
+        bonus = data['bonus'], 
+        remote = remote,
+        location = location,
+        tag = tag,
+        level = level,
+        gender = gender,
+        race = race,
+        academic_level = academic_level
+    )
+
+    return Response('nice', status=status.HTTP_201_CREATED)

@@ -8,7 +8,7 @@ from django.db.models.fields.related import ForeignKey, ManyToManyField
 
 class Company(models.Model):
     company_name = models.CharField(max_length=255)
-    icon_url = models.CharField(max_length=255)
+    icon_url = models.CharField(max_length=255, null=True, blank=True)
 
     def __str__(self):
         return self.company_name
@@ -36,19 +36,19 @@ class Level(models.Model):
         return self.level_name
 
 class Gender(models.Model):
-    gender = models.CharField(max_length=16)
+    gender = models.CharField(max_length=16, null=True, blank=True)
     
     def __str__(self):
         return self.gender
 
 class Race(models.Model):
-    race = models.CharField(max_length=64)
+    race = models.CharField(max_length=64, null=True, blank=True)
 
     def __str__(self):
         return self.race
 
 class Acad_level(models.Model):
-    acad_level = CharField(max_length=255)
+    acad_level = CharField(max_length=255, null=True, blank=True)
 
     def __str__(self):
         return self.acad_level
@@ -61,6 +61,7 @@ class Employee(models.Model):
     base_salary = models.IntegerField()
     stockgrantvalue = models.IntegerField()
     bonus = models.IntegerField()
+    remote = models.BooleanField(default=False)
     location = models.ForeignKey(Location, on_delete=models.SET_NULL, null=True)
     tag = models.ForeignKey(Tag, on_delete=models.SET_NULL, null=True)
     level = models.ForeignKey(Level, on_delete=models.SET_NULL, null=True)
