@@ -70,7 +70,8 @@ def loc_search(request, loc):
     location = Location.objects.filter(location_name__iendswith=loc)
     employees = Employee.objects.none()
     for l in location.iterator():
-        employees |= l.employee_set.all().select_related('level__company')
+        employees |= l.employee_set.all().select_related('level__company', 'tag',
+        'level', 'gender', 'race', 'academic_level')
     employees = employees.all().order_by('-totalyearlycompensation')
     serializer = EmployeeSerializer(employees, many=True)
     return Response(serializer.data)

@@ -39,18 +39,24 @@ class Gender(models.Model):
     gender = models.CharField(max_length=16, null=True, blank=True)
     
     def __str__(self):
+        if not self.gender:
+            return 'null'
         return self.gender
 
 class Race(models.Model):
     race = models.CharField(max_length=64, null=True, blank=True)
 
     def __str__(self):
+        if not self.race:
+            return 'null'
         return self.race
 
 class Acad_level(models.Model):
     acad_level = CharField(max_length=255, null=True, blank=True)
 
     def __str__(self):
+        if not self.acad_level:
+            return 'null'
         return self.acad_level
         
 class Employee(models.Model):
@@ -69,11 +75,9 @@ class Employee(models.Model):
     race = models.ForeignKey(Race, on_delete=models.SET_NULL, null=True)
     academic_level = models.ForeignKey(Acad_level, on_delete=models.SET_NULL, null=True)
 
-
-                
-
     @property
     def company(self):
-        # return company object
         c = self.level.company
         return {"company": c.company_name, "icon_url": c.icon_url}
+    
+    

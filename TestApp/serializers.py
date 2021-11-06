@@ -40,7 +40,14 @@ class Acad_levelSerializer(serializers.ModelSerializer):
 
 class EmployeeSerializer(serializers.ModelSerializer):
     company = serializers.CharField()
+    location = serializers.CharField()
+    tag = serializers.CharField()
+    level = serializers.CharField()
+    gender = serializers.CharField()
+    race = serializers.CharField()
+    academic_level = serializers.CharField()
 
     class Meta:
         model = Employee
         fields = '__all__'
+    
