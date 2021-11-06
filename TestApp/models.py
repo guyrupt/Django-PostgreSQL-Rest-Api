@@ -69,3 +69,11 @@ class Employee(models.Model):
     race = models.ForeignKey(Race, on_delete=models.SET_NULL, null=True)
     academic_level = models.ForeignKey(Acad_level, on_delete=models.SET_NULL, null=True)
 
+
+                
+
+    @property
+    def company(self):
+        # return company object
+        c = self.level.company
+        return {"company": c.company_name, "icon_url": c.icon_url}

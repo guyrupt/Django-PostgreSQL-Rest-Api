@@ -1,6 +1,8 @@
+from django.http import response
 from django.shortcuts import render
 from django.views.decorators.csrf import csrf_exempt
 from django.http.response import JsonResponse
+from django.db.models.query import EmptyQuerySet
 
 from rest_framework.parsers import JSONParser
 from rest_framework.decorators import api_view
@@ -8,6 +10,7 @@ from rest_framework.response import Response
 from rest_framework import status
 
 from .models import *
+from .serializers import *
 # Create your views here.
 
 @api_view(['GET'])
@@ -17,7 +20,7 @@ def apiOverview(request):
     }
     return Response(api_urls)
 
-# timestamp	level	totalyearlycompensation	location	yearsofexperience	yearsatcompany	tag	basesalary	stockgrantvalue	bonus	gender	company.name	company.icon	company.registered	Remote	Academic Level	Race
+# All data is inserted to database using this API, check ./database/database.ipynb for data
 @api_view(['POST'])
 def addInstance(request):
     data = JSONParser().parse(request)
@@ -59,3 +62,28 @@ def addInstance(request):
     )
 
     return Response('nice', status=status.HTTP_201_CREATED)
+
+# 1st API /location/<loc>  
+# To search places in U.S., type in USPS Abbreviation. In other countries type in country name.
+@api_view(['GET'])
+def loc_search(request, loc):
+    location = Location.objects.filter(location_name__iendswith=loc)
+    employees = Employee.objects.none()
+    for l in location.iterator():
+        employees |= l.employee_set.all().select_related('level__company')
+    employees = employees.all().order_by('-totalyearlycompensation')
+    serializer = EmployeeSerializer(employees, many=True)
+    return Response(serializer.data)
+
+
+# @api_view(['GET'])
+
+@api_view(['GET'])
+def company_search(request, comp):
+    company = Company.objects.get(company_name__icontains=comp)
+    employees = Employee.objects.none()
+    for c in company.iterator():
+        employees |= c.employee_set.all().values()
+    
+    serializer = EmployeeSerializer(employees, many=True)
+    return Response(serializer.data)
