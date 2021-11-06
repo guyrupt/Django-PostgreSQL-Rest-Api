@@ -77,14 +77,9 @@ def loc_search(request, loc):
     return Response(serializer.data)
 
 
-# @api_view(['GET'])
 
 @api_view(['GET'])
 def company_search(request, comp):
-    company = Company.objects.get(company_name__icontains=comp)
-    employees = Employee.objects.none()
-    for c in company.iterator():
-        employees |= c.employee_set.all().values()
-    
-    serializer = EmployeeSerializer(employees, many=True)
+    employees = Employee.objects.filter(level__company__in=Company.objects.filter(company_name__icontains=comp)).values()
+    serializer = EmployeeSerializer2(employees, many=True)
     return Response(serializer.data)

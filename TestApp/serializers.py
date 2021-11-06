@@ -33,6 +33,7 @@ class RaceSerializer(serializers.ModelSerializer):
         model = Race
         fields = '__all__'
 
+
 class Acad_levelSerializer(serializers.ModelSerializer):
     class Meta:
         model = Acad_level
@@ -47,6 +48,11 @@ class EmployeeSerializer(serializers.ModelSerializer):
     race = serializers.CharField()
     academic_level = serializers.CharField()
 
+    class Meta:
+        model = Employee
+        fields = '__all__'
+
+class EmployeeSerializer2(serializers.ModelSerializer):
     class Meta:
         model = Employee
         fields = '__all__'
