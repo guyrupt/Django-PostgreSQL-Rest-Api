@@ -40,11 +40,11 @@ The password of the DB server is **!Password**
 
 **THIS IS A MUTUAL DATABASE**
 
-## Test api
+## APIs
 
 ### GET
 
-- {host:port}/location/{location}
+#### {host:port}/location/{location}
 
 for _location_, type in USPS Abbreviation for states in U.S., other countries type in full country name.
 
@@ -52,7 +52,7 @@ Demo:
 
 Request: GET http://127.0.0.1:8000/location/taiwan
 
-Response:
+Response Sample:
 
     [
         {
@@ -90,6 +90,51 @@ Response:
             "stockgrantvalue": 93,
             "bonus": 0,
             "remote": false
+        }
+    ]
+
+#### {host:port}/company/{company name}
+
+Demo:
+
+Request: GET http://127.0.0.1:8000/company/google
+
+Response Sample:
+
+    [
+        {
+            "id": 13,
+            "timestamp": "2021-10-25T05:56:07Z",
+            "yearsofexperience": 7,
+            "yearsatcompany": 2,
+            "totalyearlycompensation": 400,
+            "base_salary": 165,
+            "stockgrantvalue": 200,
+            "bonus": 35,
+            "remote": false,
+            "location": null,
+            "tag": null,
+            "level": null,
+            "gender": null,
+            "race": null,
+            "academic_level": null
+        },
+        {
+            "id": 818,
+            "timestamp": "2021-10-15T23:36:03Z",
+            "yearsofexperience": 6,
+            "yearsatcompany": 0,
+            "totalyearlycompensation": 389,
+            "base_salary": 200,
+            "stockgrantvalue": 159,
+            "bonus": 30,
+            "remote": false,
+            "location": null,
+            "tag": null,
+            "level": null,
+            "gender": null,
+            "race": null,
+            "academic_level": null
         }
     ]
 
