@@ -24,7 +24,7 @@ To run server, run the following
 
 The database of this project is on the Azure cloud, which means you **DO NOT** need to setup local database and import data. You can access the database directly with password.
 
-To access with pgAdmin
+To monitor the database with pgAdmin
 
 Click **Add New Server** on the main page of pgAdmin
 
