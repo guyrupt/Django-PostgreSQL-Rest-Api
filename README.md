@@ -75,7 +75,7 @@ Response Sample:
         },
         {
             "id": 10165,
-            "company": "{'company': 'Nvidia', 'icon_url': 'https://logo.clearbit.com/nvidia.com'}",
+            "company": {'company': 'Nvidia', 'icon_url': 'https://logo.clearbit.com/nvidia.com'},
             "location": "Taipei, TP, Taiwan",
             "tag": "System",
             "level": "IC5",
@@ -138,4 +138,14 @@ Response Sample:
         }
     ]
 
-> Ref: https://art-of-engineer.blogspot.com/2021/06/python-django-postgresql-rest-api.html
+## To Start Frontend
+
+After setting up the django server, run
+
+    cd frontend
+
+then,
+
+    npm run dev
+
+The webpage is on http://localhost:3000
