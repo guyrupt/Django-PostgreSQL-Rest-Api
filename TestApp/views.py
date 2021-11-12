@@ -80,6 +80,6 @@ def loc_search(request, loc):
 
 @api_view(['GET'])
 def company_search(request, comp):
-    employees = Employee.objects.filter(level__company__in=Company.objects.filter(company_name__icontains=comp)).values()
+    employees = Employee.objects.filter(level__company__in=Company.objects.filter(company_name__icontains=comp)).values().order_by('-totalyearlycompensation')
     serializer = EmployeeSerializer2(employees, many=True)
     return Response(serializer.data)
