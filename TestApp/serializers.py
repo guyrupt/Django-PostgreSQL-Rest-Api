@@ -40,7 +40,7 @@ class Acad_levelSerializer(serializers.ModelSerializer):
         fields = '__all__'
 
 class EmployeeSerializer(serializers.ModelSerializer):
-    company = serializers.CharField()
+    company = serializers.JSONField()
     location = serializers.CharField()
     tag = serializers.CharField()
     level = serializers.CharField()

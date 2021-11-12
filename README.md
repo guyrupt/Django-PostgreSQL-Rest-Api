@@ -57,7 +57,7 @@ Response Sample:
     [
         {
             "id": 5173,
-            "company": "{'company': 'Google', 'icon_url': 'https://logo.clearbit.com/google.com'}",
+            "company": {'company': 'Google', 'icon_url': 'https://logo.clearbit.com/google.com'},
             "location": "Taipei, TP, Taiwan",
             "tag": "Embedded Systems",
             "level": "L6",
