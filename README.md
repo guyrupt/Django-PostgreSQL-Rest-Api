@@ -143,6 +143,7 @@ Response Sample:
 After setting up the django server, run
 
     cd frontend
+    npm install
 
 then,
 
