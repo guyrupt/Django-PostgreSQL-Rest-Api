@@ -9,7 +9,6 @@ from rest_framework.decorators import api_view
 from rest_framework.response import Response
 from rest_framework import status
 
-from .models import *
 from .serializers import *
 
 
@@ -82,15 +81,6 @@ def loc_search(request, loc):
 
 
 @api_view(['GET'])
-def company_search(request, comp):
-    employees = Employee.objects.filter(
-        level__company__in=Company.objects.filter(company_name__icontains=comp)).values().order_by(
-        '-totalyearlycompensation')
-    serializer = EmployeeSerializer2(employees, many=True)
-    return Response(serializer.data)
-
-
-@api_view(['GET'])
 def companies(request):
     company_list = Company.objects.all().order_by('company_name')
     serializer = CompanySerializer(company_list, many=True)
@@ -107,7 +97,7 @@ def loc_search(request):
 @api_view(['GET'])
 def companylevel_search(request, comp):
     levels = Level.objects.filter(company__in=
-                                  Company.objects.filter(company_name=comp
+                                  Company.objects.filter(company_name__icontains=comp
                                                          )).distinct('level_name').order_by('level_name')
     serializer = LevelSerializer(levels, many=True)
     return Response(serializer.data)
