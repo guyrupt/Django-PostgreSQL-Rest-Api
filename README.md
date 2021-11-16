@@ -117,66 +117,59 @@ Response Sample:
 ]
 ````
 
-#### {host:port}/companyloc/{company}
+#### {host:port}/locations/
 
-Purpose: get all location of a specific company 
+Purpose: get all location 
 
-Request: GET http://127.0.0.1:8000/companyloc/Google
+Request: GET http://127.0.0.1:8000/locations
 
 Response Sample:
 
 ````
 [
     {
-        "location_name": "Atlanta, GA"
+        "location_name": "1A Coruna, GA, Spain"
     },
     {
-        "location_name": "Austin, TX"
-    },
-    {
-        "location_name": "Bangalore, KA, India"
-    },
-    {
-        "location_name": "Belo Horizonte, MG, Brazil"
+        "location_name": "Aachen, NW, Germany"
     },
 ]
-
 ````
-#### {host:port}/companylevel/{company}/{location}
+#### {host:port}/companylevels/{company}/
 
-Purpose: get all levels of a specific company in {location}
+Purpose: get all levels of a specific company
 
-Request: GET http://127.0.0.1:8000/companylevel/Google/San Francisco, CA
+Request: GET http://127.0.0.1:8000/companylevels/Google
 
 Response Sample:
 
 ````
 [
     {
-        "level_name": "L5"
+        "level_name": "3"
     },
     {
-        "level_name": "L6"
+        "level_name": "4"
     },
 ]
 
 ````
 
-#### {host:port}/companytag/{company}/{location}/{level}
+#### {host:port}/tags/
 
-Purpose: get all tags of a specific company in {location} with level of {level}
+Purpose: get all tags 
 
-Request: GET http://127.0.0.1:8000/companytag/Google/San Francisco, CA/L5
+Request: GET http://127.0.0.1:8000/tags
 
 Response Sample:
 
 ````
 [
     {
-        "tag_name": "Android"
+        "tag_name": "5g"
     },
     {
-        "tag_name": "API Development (Back-End)"
+        "tag_name": "aa"
     },
 ]
 

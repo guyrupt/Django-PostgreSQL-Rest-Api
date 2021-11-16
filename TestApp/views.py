@@ -98,31 +98,24 @@ def companies(request):
 
 
 @api_view(['GET'])
-def companyloc_search(request, comp):
-    company = Company.objects.get(company_name=comp)
-    location = company.location_set.all().order_by('location_name')
+def loc_search(request):
+    location = Location.objects.order_by('location_name')
     serializer = LocationSerializer(location, many=True)
     return Response(serializer.data)
 
 
 @api_view(['GET'])
-def companylevel_search(request, comp, loc):
+def companylevel_search(request, comp):
     levels = Level.objects.filter(company__in=
-                                  Company.objects.filter(company_name=
-                                                         comp).filter(location__location_name=
-                                                                      loc)).distinct('level_name').order_by(
-        'level_name')
+                                  Company.objects.filter(company_name=comp
+                                                         )).distinct('level_name').order_by('level_name')
     serializer = LevelSerializer(levels, many=True)
     return Response(serializer.data)
 
 
 @api_view(['GET'])
-def companytag_search(request, comp, loc, level):
-    tag = Tag.objects.filter(company__in=
-                             Company.objects.filter(company_name=
-                                                    comp).filter(location__location_name=
-                                                                 loc)).filter(employee__level__level_name=
-                                                                              level).distinct('tag_name').order_by(
+def tag_search(request):
+    tag = Tag.objects.distinct('tag_name').order_by(
         'tag_name')
     serializer = TagSerializer(tag, many=True)
     return Response(serializer.data)
