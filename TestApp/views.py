@@ -74,9 +74,9 @@ def loc_search(request, loc):
     location = Location.objects.filter(location_name__iendswith=loc)
     employees = Employee.objects.none()
     for l in location.iterator():
-        employees |= l.employee_set.all().select_related('level__company', 'tag',
-                                                         'level', 'gender', 'race', 'academic_level')
-    employees = employees.all().order_by('-totalyearlycompensation')
+        employees |= l.employee_set.select_related('level__company', 'tag',
+                                                   'level', 'gender', 'race', 'academic_level')
+    employees = employees.order_by('-totalyearlycompensation')
     serializer = EmployeeSerializer(employees, many=True)
     return Response(serializer.data)
 
@@ -125,4 +125,61 @@ def companytag_search(request, comp, loc, level):
                                                                               level).distinct('tag_name').order_by(
         'tag_name')
     serializer = TagSerializer(tag, many=True)
+    return Response(serializer.data)
+
+
+@api_view(['POST'])
+def all_search(request):
+    if 'application/json' not in request.content_type:
+        return Response("Content type should be 'application/json'.", status=status.HTTP_400_BAD_REQUEST)
+    try:
+        company = request.data['company']
+        location = request.data['location']
+        level = request.data['level']
+        tag = request.data['tag']
+    except:
+        return Response('Input JSON form invalid, go read README',
+                        status=status.HTTP_400_BAD_REQUEST)
+    employees = Employee.objects.none()
+    if not company:
+        location = Location.objects
+        for l in location.iterator():
+            employees |= l.employee_set.select_related('level__company', 'tag',
+                                                       'level', 'gender', 'race', 'academic_level')
+        employees = employees.order_by('-totalyearlycompensation')
+    elif not location:
+        location = Location.objects
+        for l in location.iterator():
+            employees |= l.employee_set.filter(level__company__company_name__icontains=
+                                               company).select_related('level__company', 'tag',
+                                                                       'level', 'gender', 'race', 'academic_level')
+        employees = employees.order_by('-totalyearlycompensation')
+    elif not level:
+        location = Location.objects.filter(location_name__icontains=location)
+        for l in location.iterator():
+            employees |= l.employee_set.filter(level__company__company_name__icontains=
+                                               company).select_related('level__company', 'tag',
+                                                                       'level', 'gender', 'race', 'academic_level')
+        employees = employees.order_by('-totalyearlycompensation')
+    elif not tag:
+        location = Location.objects.filter(location_name__icontains=location)
+        for l in location.iterator():
+            employees |= l.employee_set.filter(level__company__company_name__icontains=
+                                               company).filter(level__level_name__icontains=
+                                                               level).select_related('level__company', 'tag',
+                                                                                     'level', 'gender', 'race',
+                                                                                     'academic_level')
+        employees = employees.order_by('-totalyearlycompensation')
+    else:
+        location = Location.objects.filter(location_name__icontains=location)
+        for l in location.iterator():
+            employees |= \
+                l.employee_set.filter(level__company__company_name__icontains=
+                                      company).filter(level__level_name__icontains=
+                                                      level).filter(tag__tag_name__icontains=
+                                                                    tag).select_related('level__company', 'tag',
+                                                                                        'level', 'gender', 'race',
+                                                                                        'academic_level')
+        employees = employees.order_by('-totalyearlycompensation')
+    serializer = EmployeeSerializer(employees, many=True)
     return Response(serializer.data)

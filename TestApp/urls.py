@@ -10,5 +10,6 @@ urlpatterns = [
     path('company/', views.companies, name='companies-list'),
     path('companyloc/<str:comp>', views.companyloc_search, name='comp-loc-search'),
     path('companylevel/<str:comp>/<str:loc>', views.companylevel_search, name='comp-level-search'),
-    path('companytag/<str:comp>/<str:loc>/<str:level>', views.companytag_search, name='comp-tag-search')
+    path('companytag/<str:comp>/<str:loc>/<str:level>', views.companytag_search, name='comp-tag-search'),
+    path('search', views.all_search, name='4-search')
 ]

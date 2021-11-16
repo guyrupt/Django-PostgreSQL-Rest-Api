@@ -182,6 +182,98 @@ Response Sample:
 
 ````
 
+### POST
+
+#### {host:port}/search
+
+Purpose: get list of employee with requested conditions
+
+Request must be in JSON form and must contain **["company", "location", "level", "tag"]**. 
+
+The values of **["company", "location", "level", "tag"]** can be null,
+but if any previous item is null, the value should be null.
+
+For example, the following is fine:
+
+````
+{
+        "company" : null,
+        "location" : null,
+        "level" : null,
+        "tag" : null
+}
+````
+
+This is fine as well:
+
+````
+{
+        "company" : "Google",
+        "location" : "Taiwan",
+        "level" : null,
+        "tag" : null
+}
+````
+
+BUT THESE ARE NOT:
+
+```
+{
+        "company" : null,
+        "location" : null,
+        "level" : null,
+        "tag" : "Embedded Systems" // SHOULD BE SET null
+}
+```
+```
+{
+        "company" : "Google",     
+        "location" : null,
+        "level" : "L5",           // SHOULD BE SET null 
+        "tag" : null 
+}
+```
+Request: POST http://127.0.0.1:8000/search
+
+Request Body:
+
+````
+{
+        "company" : "Google",
+        "location" : "Taiwan",
+        "level" : "l6",
+        "tag" : "embedded"
+}
+````
+
+Response Sample:
+
+```
+[
+    {
+        "id": 5173,
+        "company": {
+            "company": "Google",
+            "icon_url": "https://logo.clearbit.com/google.com"
+        },
+        "location": "Taipei, TP, Taiwan",
+        "tag": "Embedded Systems",
+        "level": "L6",
+        "gender": "male",
+        "race": "Asian",
+        "academic_level": "Doctorate (PhD)",
+        "timestamp": "2021-08-26T18:10:05Z",
+        "yearsofexperience": 11,
+        "yearsatcompany": 9,
+        "totalyearlycompensation": 276,
+        "base_salary": 148,
+        "stockgrantvalue": 90,
+        "bonus": 38,
+        "remote": false
+    }
+]
+```
+
 ## To Start Frontend
 
 After setting up the django server, run
