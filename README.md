@@ -247,6 +247,8 @@ Response Sample:
 
 ## To Start Frontend
 
+Prereqs: Nodejs
+
 After setting up the django server, run
 
     cd frontend
