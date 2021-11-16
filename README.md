@@ -190,49 +190,6 @@ Purpose: get list of employee with requested conditions
 
 Request must be in JSON form and must contain **["company", "location", "level", "tag"]**. 
 
-The values of **["company", "location", "level", "tag"]** can be null,
-but if any previous item is null, the value should be null.
-
-For example, the following is fine:
-
-````
-{
-        "company" : null,
-        "location" : null,
-        "level" : null,
-        "tag" : null
-}
-````
-
-This is fine as well:
-
-````
-{
-        "company" : "Google",
-        "location" : "Taiwan",
-        "level" : null,
-        "tag" : null
-}
-````
-
-BUT THESE ARE NOT:
-
-```
-{
-        "company" : null,
-        "location" : null,
-        "level" : null,
-        "tag" : "Embedded Systems" // SHOULD BE SET null
-}
-```
-```
-{
-        "company" : "Google",     
-        "location" : null,
-        "level" : "L5",           // SHOULD BE SET null 
-        "tag" : null 
-}
-```
 Request: POST http://127.0.0.1:8000/search
 
 Request Body:
@@ -240,9 +197,9 @@ Request Body:
 ````
 {
         "company" : "Google",
-        "location" : "Taiwan",
+        "location" : null,
         "level" : "l6",
-        "tag" : "embedded"
+        "tag" : null
 }
 ````
 
@@ -251,26 +208,47 @@ Response Sample:
 ```
 [
     {
-        "id": 5173,
+        "id": 3898,
         "company": {
             "company": "Google",
             "icon_url": "https://logo.clearbit.com/google.com"
         },
-        "location": "Taipei, TP, Taiwan",
-        "tag": "Embedded Systems",
-        "level": "L6",
+        "location": "Mountain View, CA",
+        "tag": "Distributed Systems (Back-End)",
+        "level": "Manager (L6)",
         "gender": "male",
         "race": "Asian",
         "academic_level": "Doctorate (PhD)",
-        "timestamp": "2021-08-26T18:10:05Z",
-        "yearsofexperience": 11,
-        "yearsatcompany": 9,
-        "totalyearlycompensation": 276,
-        "base_salary": 148,
-        "stockgrantvalue": 90,
-        "bonus": 38,
+        "timestamp": "2021-09-10T22:34:15Z",
+        "yearsofexperience": 8,
+        "yearsatcompany": 8,
+        "totalyearlycompensation": 849,
+        "base_salary": 224,
+        "stockgrantvalue": 535,
+        "bonus": 89,
         "remote": false
-    }
+    },
+    {
+        "id": 8869,
+        "company": {
+            "company": "Google",
+            "icon_url": "https://logo.clearbit.com/google.com"
+        },
+        "location": "Sunnyvale, CA",
+        "tag": "Distributed Systems (Back-End)",
+        "level": "L6",
+        "gender": "male",
+        "race": "Asian",
+        "academic_level": "Master",
+        "timestamp": "2021-07-14T20:14:25Z",
+        "yearsofexperience": 18,
+        "yearsatcompany": 5,
+        "totalyearlycompensation": 600,
+        "base_salary": 270,
+        "stockgrantvalue": 240,
+        "bonus": 90,
+        "remote": false
+    },
 ]
 ```
 
