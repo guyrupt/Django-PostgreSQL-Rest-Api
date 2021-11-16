@@ -48,7 +48,7 @@ The password of the DB server is **!Password**
 
 for _location_, type in USPS Abbreviation for states in U.S., other countries type in full country name.
 
-Demo:
+Purpose: get all employee data in a specific location
 
 Request: GET http://127.0.0.1:8000/location/taiwan
 
@@ -93,50 +93,94 @@ Response Sample:
         }
     ]
 
-#### {host:port}/company/{company name}
+#### {host:port}/company/
 
-Demo:
+Purpose: get all companies 
 
-Request: GET http://127.0.0.1:8000/company/google
+Request: GET http://127.0.0.1:8000/company
 
 Response Sample:
 
-    [
-        {
-            "id": 13,
-            "timestamp": "2021-10-25T05:56:07Z",
-            "yearsofexperience": 7,
-            "yearsatcompany": 2,
-            "totalyearlycompensation": 400,
-            "base_salary": 165,
-            "stockgrantvalue": 200,
-            "bonus": 35,
-            "remote": false,
-            "location": null,
-            "tag": null,
-            "level": null,
-            "gender": null,
-            "race": null,
-            "academic_level": null
-        },
-        {
-            "id": 818,
-            "timestamp": "2021-10-15T23:36:03Z",
-            "yearsofexperience": 6,
-            "yearsatcompany": 0,
-            "totalyearlycompensation": 389,
-            "base_salary": 200,
-            "stockgrantvalue": 159,
-            "bonus": 30,
-            "remote": false,
-            "location": null,
-            "tag": null,
-            "level": null,
-            "gender": null,
-            "race": null,
-            "academic_level": null
-        }
-    ]
+````
+
+[
+    {
+        "id": 769,
+        "company_name": "1Password",
+        "icon_url": "https://logo.clearbit.com/1password.com"
+    },
+    {
+        "id": 560,
+        "company_name": "2U",
+        "icon_url": "https://logo.clearbit.com/2u.com"
+    },
+]
+````
+
+#### {host:port}/companyloc/{company}
+
+Purpose: get all location of a specific company 
+
+Request: GET http://127.0.0.1:8000/companyloc/Google
+
+Response Sample:
+
+````
+[
+    {
+        "location_name": "Atlanta, GA"
+    },
+    {
+        "location_name": "Austin, TX"
+    },
+    {
+        "location_name": "Bangalore, KA, India"
+    },
+    {
+        "location_name": "Belo Horizonte, MG, Brazil"
+    },
+]
+
+````
+#### {host:port}/companylevel/{company}/{location}
+
+Purpose: get all levels of a specific company in {location}
+
+Request: GET http://127.0.0.1:8000/companylevel/Google/San Francisco, CA
+
+Response Sample:
+
+````
+[
+    {
+        "level_name": "L5"
+    },
+    {
+        "level_name": "L6"
+    },
+]
+
+````
+
+#### {host:port}/companytag/{company}/{location}/{level}
+
+Purpose: get all tags of a specific company in {location} with level of {level}
+
+Request: GET http://127.0.0.1:8000/companytag/Google/San Francisco, CA/L5
+
+Response Sample:
+
+````
+[
+    {
+        "tag_name": "Android"
+    },
+    {
+        "tag_name": "API Development (Back-End)"
+    },
+]
+
+````
 
 ## To Start Frontend
 
