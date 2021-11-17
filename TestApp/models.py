@@ -4,8 +4,8 @@ from django.db.models.base import Model
 from django.db.models.fields import CharField, DateTimeField
 from django.db.models.fields.related import ForeignKey, ManyToManyField
 
-# Create your models here.
 
+# Create your models here.
 
 class Company(models.Model):
     company_name = models.CharField(max_length=255)
@@ -13,6 +13,7 @@ class Company(models.Model):
 
     def __str__(self):
         return self.company_name
+
 
 class Location(models.Model):
     location_name = models.CharField(max_length=255)
@@ -29,6 +30,7 @@ class Tag(models.Model):
     def __str__(self):
         return self.tag_name
 
+
 class Level(models.Model):
     level_name = models.CharField(max_length=255)
     company = ForeignKey(Company, on_delete=models.CASCADE)
@@ -36,13 +38,15 @@ class Level(models.Model):
     def __str__(self):
         return self.level_name
 
+
 class Gender(models.Model):
     gender = models.CharField(max_length=16, null=True, blank=True)
-    
+
     def __str__(self):
         if not self.gender:
             return 'null'
         return self.gender
+
 
 class Race(models.Model):
     race = models.CharField(max_length=64, null=True, blank=True)
@@ -52,6 +56,7 @@ class Race(models.Model):
             return 'null'
         return self.race
 
+
 class Acad_level(models.Model):
     acad_level = CharField(max_length=255, null=True, blank=True)
 
@@ -59,7 +64,8 @@ class Acad_level(models.Model):
         if not self.acad_level:
             return 'null'
         return self.acad_level
-        
+
+
 class Employee(models.Model):
     timestamp = models.DateTimeField()
     yearsofexperience = models.IntegerField()
@@ -80,5 +86,3 @@ class Employee(models.Model):
     def company(self):
         c = self.level.company
         return {"company": c.company_name, "icon_url": c.icon_url}
-    
-    

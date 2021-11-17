@@ -1,3 +1,4 @@
+from django.forms import model_to_dict
 from django.http import response
 from django.shortcuts import render
 from django.views.decorators.csrf import csrf_exempt
@@ -230,13 +231,55 @@ def companytag_search(request, comp, loc, level):
 @api_view(['GET'])
 def companystats(request, comp):
     if not comp:
-        company = Company.objects
-    else:
-        company = Company.objects.filter(company_name__icontains=comp)
-    employee = Employee.objects
+        return Response('Company cannot be null', status=status.HTTP_400_BAD_REQUEST)
+    company = Company.objects.filter(company_name__icontains=comp)
+    companyList = []
     for c in company.iterator():
-        gender = {}
-        race = {}
-        academic_level = {}
-
-    return Response(comp)
+        json = {}
+        employee = Employee.objects.filter(level__company=c)
+        json['company'] = model_to_dict(c)
+        g_null = employee.filter(gender__gender=None).count()
+        g_male = employee.filter(gender__gender='male').count()
+        g_female = employee.filter(gender__gender='female').count()
+        g_other = employee.filter(gender__gender='other').count()
+        gender = {'null': g_null,
+                  'male': g_male,
+                  'female': g_female,
+                  'other': g_other}
+        json['gender'] = gender
+        r_null = employee.filter(race__race=None).count()
+        r_white = employee.filter(race__race='White').count()
+        r_asian = employee.filter(race__race='Asian').count()
+        r_hisp = employee.filter(race__race='Hispanic / Latino').count()
+        r_two = employee.filter(race__race='Two or More Races').count()
+        r_black = employee.filter(race__race='Black or African American').count()
+        r_hawaii = employee.filter(race__race='Native Hawaiian or Other Pacific Islander').count()
+        r_indian = employee.filter(race__race='American Indian or Alaska Native').count()
+        race = {'null': r_null,
+                'White': r_white,
+                'Asian': r_asian,
+                'Hispanic / Latino': r_hisp,
+                'Two or More Races': r_two,
+                'Black or African American': r_black,
+                'Native Hawaiian or Other Pacific Islander': r_hawaii,
+                'American Indian or Alaska Native': r_indian}
+        json['race'] = race
+        a_null = employee.filter(academic_level__acad_level=None).count()
+        a_master = employee.filter(academic_level__acad_level='Master').count()
+        a_bach = employee.filter(academic_level__acad_level='Bachelor').count()
+        a_phd = employee.filter(academic_level__acad_level='Doctorate (PhD)').count()
+        a_dropout = employee.filter(academic_level__acad_level='Some college coursework completed').count()
+        a_highs = employee.filter(academic_level__acad_level='High school or equivalent').count()
+        a_tech = employee.filter(academic_level__acad_level='Technical or occupational certificate').count()
+        a_asso = employee.filter(academic_level__acad_level='Associate Degree').count()
+        academic_level = {'null': a_null,
+                          'Master': a_master,
+                          'Bachelor': a_bach,
+                          'Doctorate (PhD)': a_phd,
+                          'Some college coursework completed': a_dropout,
+                          'High school or equivalent': a_highs,
+                          'Technical or occupational certificate': a_tech,
+                          'Associate Degree': a_asso}
+        json['academic_level'] = academic_level
+        companyList.append(json)
+    return Response(companyList)

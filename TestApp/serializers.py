@@ -4,7 +4,7 @@ from .models import *
 
 
 class CompanySerializer(serializers.ModelSerializer):
-
+    # gender = serializers.JSONField()
     class Meta:
         model = Company
         fields = '__all__'

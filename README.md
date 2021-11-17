@@ -175,6 +175,85 @@ Response Sample:
 
 ````
 
+#### {host:port}/companystats/{company}
+
+Purpose: get gender/race/academic level stats of company
+
+Request: GET http://127.0.0.1:8000/companystats/netflix
+
+Response Sample:
+
+````
+[
+    {
+        "company": {
+            "id": 33,
+            "company_name": "Netflix",
+            "icon_url": "https://logo.clearbit.com/netflix.com"
+        },
+        "gender": {
+            "null": 21,
+            "male": 32,
+            "female": 8,
+            "other": 0
+        },
+        "race": {
+            "null": 26,
+            "White": 24,
+            "Asian": 6,
+            "Hispanic / Latino": 1,
+            "Two or More Races": 1,
+            "Black or African American": 3,
+            "Native Hawaiian or Other Pacific Islander": 0,
+            "American Indian or Alaska Native": 0
+        },
+        "academic_level": {
+            "null": 16,
+            "Master": 14,
+            "Bachelor": 23,
+            "Doctorate (PhD)": 4,
+            "Some college coursework completed": 2,
+            "High school or equivalent": 2,
+            "Technical or occupational certificate": 0,
+            "Associate Degree": 0
+        }
+    },
+    {
+        "company": {
+            "id": 1018,
+            "company_name": "Netflix Inc",
+            "icon_url": "https://logo.clearbit.com/netflix.com"
+        },
+        "gender": {
+            "null": 0,
+            "male": 1,
+            "female": 0,
+            "other": 0
+        },
+        "race": {
+            "null": 0,
+            "White": 0,
+            "Asian": 1,
+            "Hispanic / Latino": 0,
+            "Two or More Races": 0,
+            "Black or African American": 0,
+            "Native Hawaiian or Other Pacific Islander": 0,
+            "American Indian or Alaska Native": 0
+        },
+        "academic_level": {
+            "null": 0,
+            "Master": 0,
+            "Bachelor": 1,
+            "Doctorate (PhD)": 0,
+            "Some college coursework completed": 0,
+            "High school or equivalent": 0,
+            "Technical or occupational certificate": 0,
+            "Associate Degree": 0
+        }
+    }
+]
+````
+
 ### POST
 
 #### {host:port}/search
