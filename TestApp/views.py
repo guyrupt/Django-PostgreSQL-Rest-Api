@@ -191,3 +191,52 @@ def all_search(request):
     employees = employees.order_by('-totalyearlycompensation')
     serializer = EmployeeSerializer(employees, many=True)
     return Response(serializer.data)
+
+
+@api_view(['GET'])
+def companyloc_search(request, comp):
+    company = Company.objects.filter(company_name__icontains=comp)
+    location = Location.objects.none()
+    for c in company:
+        location |= c.location_set.all()
+    location = location.order_by('location_name').distinct('location_name')
+    serializer = LocationSerializer(location, many=True)
+    return Response(serializer.data)
+
+
+@api_view(['GET'])
+def companylevel_search(request, comp, loc):
+    levels = Level.objects.filter(company__in=
+                                  Company.objects.filter(company_name__icontains=
+                                                         comp).filter(location__location_name__icontains=
+                                                                      loc)).distinct('level_name').order_by(
+        'level_name')
+    serializer = LevelSerializer(levels, many=True)
+    return Response(serializer.data)
+
+
+@api_view(['GET'])
+def companytag_search(request, comp, loc, level):
+    tag = Tag.objects.filter(company__in=
+                             Company.objects.filter(company_name__icontains=
+                                                    comp).filter(location__location_name__icontains=
+                                                                 loc)).filter(employee__level__level_name=
+                                                                              level).distinct('tag_name').order_by(
+        'tag_name')
+    serializer = TagSerializer(tag, many=True)
+    return Response(serializer.data)
+
+
+@api_view(['GET'])
+def companystats(request, comp):
+    if not comp:
+        company = Company.objects
+    else:
+        company = Company.objects.filter(company_name__icontains=comp)
+    employee = Employee.objects
+    for c in company.iterator():
+        gender = {}
+        race = {}
+        academic_level = {}
+
+    return Response(comp)
