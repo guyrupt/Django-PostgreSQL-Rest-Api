@@ -89,7 +89,7 @@ def companies(request):
 
 
 @api_view(['GET'])
-def loc_search(request):
+def loc_search2(request):
     location = Location.objects.order_by('location_name')
     serializer = LocationSerializer(location, many=True)
     return Response(serializer.data)
