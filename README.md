@@ -330,11 +330,11 @@ Prereqs: Nodejs
 
 After setting up the django server, run
 
-    cd frontend
+    cd frontend_svelte
     npm install
 
 then,
 
     npm run dev
 
-The webpage is on http://localhost:3000
+The webpage is on http://localhost:80
