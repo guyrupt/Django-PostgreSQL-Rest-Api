@@ -1,3 +1,4 @@
+from django.db.models import Avg
 from django.forms import model_to_dict
 from django.http import response
 from django.shortcuts import render
@@ -281,5 +282,7 @@ def companystats(request, comp):
                           'Technical or occupational certificate': a_tech,
                           'Associate Degree': a_asso}
         json['academic_level'] = academic_level
+        json['levels'] = c.level_set.all().values('level_name').distinct().order_by('level_name')
+        json['totalyearlycompensation'] = employee.aggregate(Avg('totalyearlycompensation'))
         companyList.append(json)
     return Response(companyList)

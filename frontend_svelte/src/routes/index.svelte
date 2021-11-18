@@ -20,7 +20,7 @@
     }
 </script>
 <svelte:head>
-    <title>SWE Explore</title>
+    <title>SWE Explore: Location</title>
 </svelte:head>
 <h1 class="text-4xl text-center my-8 uppercase">SWE Explore</h1>
 <input class="w-full rounded-md text-lg p-4 border-2 border-gray-200" type="text" 
@@ -32,7 +32,7 @@ bind:value={searchTerm} placeholder="Search location. Use either country or U.S.
         <th class="w-1/5">Level Name</th>
         <th class="w-1/5">Years of Experience</th>
         <th class="w-1/5">Academic Level</th>
-        <th class="w-1/5">Total Compensation ($/yr)</th>
+        <th class="w-1/5">Total Compensation ($k/yr)</th>
       </tr>
     </thead>
     <tbody>
