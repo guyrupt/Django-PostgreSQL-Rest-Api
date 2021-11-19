@@ -24,6 +24,12 @@ class LevelSerializer(serializers.ModelSerializer):
         model = Level
         fields = ['level_name']
 
+class LevelSerializer2(serializers.ModelSerializer):
+    avg_salary = serializers.JSONField()
+    class Meta:
+        model = Level
+        fields = ['level_name', 'avg_salary']
+
 class GenderSerializer(serializers.ModelSerializer):
     class Meta:
         model = Gender

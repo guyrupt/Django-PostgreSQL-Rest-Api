@@ -1,15 +1,9 @@
 from django.db.models import Avg
 from django.forms import model_to_dict
-from django.http import response
-from django.shortcuts import render
-from django.views.decorators.csrf import csrf_exempt
-from django.http.response import JsonResponse
-from django.db.models.query import EmptyQuerySet
-
-from rest_framework.parsers import JSONParser
-from rest_framework.decorators import api_view
-from rest_framework.response import Response
 from rest_framework import status
+from rest_framework.decorators import api_view
+from rest_framework.parsers import JSONParser
+from rest_framework.response import Response
 
 from .serializers import *
 
@@ -45,7 +39,7 @@ def addInstance(request):
     race, _ = Race.objects.get_or_create(race=data['Race'])
     academic_level, _ = Acad_level.objects.get_or_create(acad_level=data['Academic Level'])
 
-    dbo = lambda x: True if x else False
+    dbo = lambda x: bool(x)
     remote = dbo(data['Remote'])
 
     employee = Employee.objects.create(
@@ -142,53 +136,50 @@ def all_search(request):
                     employees |= l.employee_set.filter(tag__tag_name__icontains=
                                                        tag).select_related('level__company', 'tag',
                                                                            'level', 'gender', 'race', 'academic_level')
+        elif not tag:
+            for l in location.iterator():
+                employees |= l.employee_set.filter(level__level_name__icontains=
+                                                   level).select_related('level__company', 'tag',
+                                                                         'level', 'gender', 'race',
+                                                                         'academic_level')
         else:
-            if not tag:
-                for l in location.iterator():
-                    employees |= l.employee_set.filter(level__level_name__icontains=
-                                                       level).select_related('level__company', 'tag',
-                                                                             'level', 'gender', 'race',
-                                                                             'academic_level')
-            else:
-                for l in location.iterator():
-                    employees |= l.employee_set.filter(level__level_name__icontains=
-                                                       level).filter(tag__tag_name__icontains=tag).select_related(
-                        'level__company', 'tag',
-                        'level', 'gender', 'race', 'academic_level')
+            for l in location.iterator():
+                employees |= l.employee_set.filter(level__level_name__icontains=
+                                                   level).filter(tag__tag_name__icontains=tag).select_related(
+                    'level__company', 'tag',
+                    'level', 'gender', 'race', 'academic_level')
 
-    else:
-        if not level:
-            if not tag:
-                for l in location.iterator():
-                    employees |= l.employee_set.filter(level__company__company_name__icontains=
-                                                       company).select_related('level__company', 'tag',
-                                                                               'level', 'gender', 'race',
-                                                                               'academic_level')
-            else:
-                for l in location.iterator():
-                    employees |= l.employee_set.filter(level__company__company_name__icontains=
-                                                       company).filter(tag__tag_name__icontains=
-                                                                       tag).select_related('level__company', 'tag',
-                                                                                           'level', 'gender', 'race',
-                                                                                           'academic_level')
+    elif not level:
+        if not tag:
+            for l in location.iterator():
+                employees |= l.employee_set.filter(level__company__company_name__icontains=
+                                                   company).select_related('level__company', 'tag',
+                                                                           'level', 'gender', 'race',
+                                                                           'academic_level')
         else:
-            if not tag:
-                for l in location.iterator():
-                    employees |= l.employee_set.filter(level__company__company_name__icontains=
-                                                       company).filter(level__level_name__icontains=
-                                                                       level).select_related('level__company', 'tag',
-                                                                                             'level', 'gender', 'race',
-                                                                                             'academic_level')
-            else:
-                for l in location.iterator():
-                    employees |= \
-                        l.employee_set.filter(level__company__company_name__icontains=
-                                              company).filter(level__level_name__icontains=
-                                                              level).filter(tag__tag_name__icontains=
-                                                                            tag).select_related('level__company', 'tag',
-                                                                                                'level', 'gender',
-                                                                                                'race',
-                                                                                                'academic_level')
+            for l in location.iterator():
+                employees |= l.employee_set.filter(level__company__company_name__icontains=
+                                                   company).filter(tag__tag_name__icontains=
+                                                                   tag).select_related('level__company', 'tag',
+                                                                                       'level', 'gender', 'race',
+                                                                                       'academic_level')
+    elif not tag:
+        for l in location.iterator():
+            employees |= l.employee_set.filter(level__company__company_name__icontains=
+                                               company).filter(level__level_name__icontains=
+                                                               level).select_related('level__company', 'tag',
+                                                                                     'level', 'gender', 'race',
+                                                                                     'academic_level')
+    else:
+        for l in location.iterator():
+            employees |= \
+                l.employee_set.filter(level__company__company_name__icontains=
+                                      company).filter(level__level_name__icontains=
+                                                      level).filter(tag__tag_name__icontains=
+                                                                    tag).select_related('level__company', 'tag',
+                                                                                        'level', 'gender',
+                                                                                        'race',
+                                                                                        'academic_level')
 
     employees = employees.order_by('-totalyearlycompensation')
     serializer = EmployeeSerializer(employees, many=True)
@@ -231,58 +222,65 @@ def companytag_search(request, comp, loc, level):
 
 @api_view(['GET'])
 def companystats(request, comp):
-    if not comp:
-        return Response('Company cannot be null', status=status.HTTP_400_BAD_REQUEST)
     company = Company.objects.filter(company_name__icontains=comp)
-    companyList = []
+    maxCount = 0
+    maxComp = Company.objects.none()
     for c in company.iterator():
-        json = {}
         employee = Employee.objects.filter(level__company=c)
-        json['company'] = model_to_dict(c)
-        g_null = employee.filter(gender__gender=None).count()
-        g_male = employee.filter(gender__gender='male').count()
-        g_female = employee.filter(gender__gender='female').count()
-        g_other = employee.filter(gender__gender='other').count()
-        gender = {'null': g_null,
-                  'male': g_male,
-                  'female': g_female,
-                  'other': g_other}
-        json['gender'] = gender
-        r_null = employee.filter(race__race=None).count()
-        r_white = employee.filter(race__race='White').count()
-        r_asian = employee.filter(race__race='Asian').count()
-        r_hisp = employee.filter(race__race='Hispanic / Latino').count()
-        r_two = employee.filter(race__race='Two or More Races').count()
-        r_black = employee.filter(race__race='Black or African American').count()
-        r_hawaii = employee.filter(race__race='Native Hawaiian or Other Pacific Islander').count()
-        r_indian = employee.filter(race__race='American Indian or Alaska Native').count()
-        race = {'null': r_null,
-                'White': r_white,
-                'Asian': r_asian,
-                'Hispanic / Latino': r_hisp,
-                'Two or More Races': r_two,
-                'Black or African American': r_black,
-                'Native Hawaiian or Other Pacific Islander': r_hawaii,
-                'American Indian or Alaska Native': r_indian}
-        json['race'] = race
-        a_null = employee.filter(academic_level__acad_level=None).count()
-        a_master = employee.filter(academic_level__acad_level='Master').count()
-        a_bach = employee.filter(academic_level__acad_level='Bachelor').count()
-        a_phd = employee.filter(academic_level__acad_level='Doctorate (PhD)').count()
-        a_dropout = employee.filter(academic_level__acad_level='Some college coursework completed').count()
-        a_highs = employee.filter(academic_level__acad_level='High school or equivalent').count()
-        a_tech = employee.filter(academic_level__acad_level='Technical or occupational certificate').count()
-        a_asso = employee.filter(academic_level__acad_level='Associate Degree').count()
-        academic_level = {'null': a_null,
-                          'Master': a_master,
-                          'Bachelor': a_bach,
-                          'Doctorate (PhD)': a_phd,
-                          'Some college coursework completed': a_dropout,
-                          'High school or equivalent': a_highs,
-                          'Technical or occupational certificate': a_tech,
-                          'Associate Degree': a_asso}
-        json['academic_level'] = academic_level
-        json['levels'] = c.level_set.all().values('level_name').distinct().order_by('level_name')
-        json['totalyearlycompensation'] = employee.aggregate(Avg('totalyearlycompensation'))
-        companyList.append(json)
-    return Response(companyList)
+        count = employee.count()
+        if count > maxCount:
+            maxCount = count
+            maxComp = c
+
+    employee = Employee.objects.filter(level__company=maxComp)
+    json = {'count': maxCount, 'company': model_to_dict(maxComp)}
+    g_null = employee.filter(gender__gender=None).count()
+    g_male = employee.filter(gender__gender='male').count()
+    g_female = employee.filter(gender__gender='female').count()
+    g_other = employee.filter(gender__gender='other').count()
+    gender = {'null': g_null,
+              'male': g_male,
+              'female': g_female,
+              'other': g_other}
+    json['gender'] = gender
+    r_null = employee.filter(race__race=None).count()
+    r_white = employee.filter(race__race='White').count()
+    r_asian = employee.filter(race__race='Asian').count()
+    r_hisp = employee.filter(race__race='Hispanic / Latino').count()
+    r_two = employee.filter(race__race='Two or More Races').count()
+    r_black = employee.filter(race__race='Black or African American').count()
+    r_hawaii = employee.filter(race__race='Native Hawaiian or Other Pacific Islander').count()
+    r_indian = employee.filter(race__race='American Indian or Alaska Native').count()
+    race = {'null': r_null,
+            'White': r_white,
+            'Asian': r_asian,
+            'Hispanic / Latino': r_hisp,
+            'Two or More Races': r_two,
+            'Black or African American': r_black,
+            'Native Hawaiian or Other Pacific Islander': r_hawaii,
+            'American Indian or Alaska Native': r_indian}
+    json['race'] = race
+    a_null = employee.filter(academic_level__acad_level=None).count()
+    a_master = employee.filter(academic_level__acad_level='Master').count()
+    a_bach = employee.filter(academic_level__acad_level='Bachelor').count()
+    a_phd = employee.filter(academic_level__acad_level='Doctorate (PhD)').count()
+    a_dropout = employee.filter(academic_level__acad_level='Some college coursework completed').count()
+    a_highs = employee.filter(academic_level__acad_level='High school or equivalent').count()
+    a_tech = employee.filter(academic_level__acad_level='Technical or occupational certificate').count()
+    a_asso = employee.filter(academic_level__acad_level='Associate Degree').count()
+    academic_level = {'null': a_null,
+                      'Master': a_master,
+                      'Bachelor': a_bach,
+                      'Doctorate (PhD)': a_phd,
+                      'Some college coursework completed': a_dropout,
+                      'High school or equivalent': a_highs,
+                      'Technical or occupational certificate': a_tech,
+                      'Associate Degree': a_asso}
+    json['academic_level'] = academic_level
+    levels = maxComp.level_set.distinct()
+    levelSerial = LevelSerializer2(levels, many=True)
+    json['levels'] = sorted(levelSerial.data, key=
+    lambda i: i['avg_salary']['totalyearlycompensation__avg'], reverse=True)
+    json['totalyearlycompensation'] = employee.aggregate(Avg('totalyearlycompensation'))
+
+    return Response([json])
