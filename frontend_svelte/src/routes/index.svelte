@@ -9,22 +9,26 @@
 	    const res = await fetch(url);
 	    const data = await res.json();
     	employees.set(data);
+      return 1;
     };
     let searchTerm = "";
-    let l = 0;
+    let promise;
+    let temp = '';
+    const onKeyPress = e => {
+        if (e.charCode === 13) searchTerm = temp;
+    };
     $:{
-        if(searchTerm.length>l){
-            fetchData(searchTerm);
+        if(searchTerm.length>0){
+            promise = fetchData(searchTerm);
         }
-        l = searchTerm.length;
     }
 </script>
 <svelte:head>
     <title>SWE Explore: Location</title>
 </svelte:head>
 <h1 class="text-4xl text-center my-8 uppercase">SWE Explore</h1>
-<input class="w-full rounded-md text-lg p-4 border-2 border-gray-200" type="text" 
-bind:value={searchTerm} placeholder="Search location. Use either country or U.S. states abbreviation.">
+<input class="w-full rounded-md text-lg p-4 border-2 border-gray-200" type="text" on:keypress={onKeyPress} 
+bind:value={temp} placeholder="Search location. Use either country or U.S. states abbreviation.">
 <table class="table-auto w-full border-2 bg-blue-300 text-gray-800 shadow-sm text-left rounded-md items-center">
     <thead>
       <tr>
@@ -47,6 +51,9 @@ bind:value={searchTerm} placeholder="Search location. Use either country or U.S.
     </tbody>
   </table>
 <div class="py-4 grid gap-4 grid-cols-1">
+{#await promise}
+  <p>...waiting</p>
+{/await}
 {#each $employees as employee}
 <EmployeeCard employee = {employee}/>
 {/each}

@@ -1,31 +1,39 @@
 <script>
     import { writable } from 'svelte/store';
-
+    import { name } from '../stores';
     export const company = writable([]);
-
     const fetchData = async (company_name) => {
         const url = `http://127.0.0.1:8000/companystats/${company_name}`;
         const res = await fetch(url);
         const data = await res.json();
         company.set(data);
+        return 1;
     };
     let searchTerm = "";
-    let num = 0;
+    name.subscribe(s => {
+        searchTerm = s;
+    });
+    let promise;
+    let temp = '';
+    const onKeyPress = e => {
+        if (e.charCode === 13) searchTerm = temp;
+    };
     $:{
-        if(searchTerm.length>num){
-            fetchData(searchTerm);
+        if(searchTerm.length>0){
+            promise = fetchData(searchTerm);
+            name.set('');
         }
-        num = searchTerm.length;
     }
-    console.log(company)
 </script>
 <svelte:head>
     <title>SWE Explore: Company</title>
 </svelte:head>
 <h1 class="text-4xl text-center my-8 uppercase">SWE Explore</h1>
-<input class="w-full rounded-md text-lg p-4 border-2 border-gray-200" type="text" 
-bind:value={searchTerm} placeholder="Search for Company Stats. Type in Company name.">
-
+<input class="w-full rounded-md text-lg p-4 border-2 border-gray-200" type="text" on:keypress={onKeyPress}
+bind:value={temp} placeholder="Search for Company Stats. Type in Company name.">
+{#await promise}
+    <p>...waiting</p>
+{/await}
 {#each $company as c}
 <div class="flex p-6 space-x-4 bg-gray-100 text-gray-800 rounded-md shadow-sm text-center">
     <div class="flex-1">
@@ -169,7 +177,7 @@ bind:value={searchTerm} placeholder="Search for Company Stats. Type in Company n
     </div>
 </div>
 <div class="items-center font-black bg-gray-200 text-gray-800 shadow-sm text-center">
-    Levels and Total Compensation Avg ($k/yr)
+    Levels Name and Total Compensation Avg ($k/yr)
 </div>
     {#each c.levels as l}
         <div class="border-2 border-gray-300 flex p-6 text-left space-x-4 bg-gray-100 text-gray-800 rounded-md shadow-sm">
