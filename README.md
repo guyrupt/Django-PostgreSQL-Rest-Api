@@ -1,6 +1,10 @@
-# Django PostgreSQL Rest Api
+# SWE EXPLORE APP
 
 Prereqs: Python 3.9
+
+## Quick Installation Guide
+
+### 1. Start Django Backend
 
 Clone this repo, then in the directory run
 
@@ -18,27 +22,61 @@ If you are not on virtual environment, run `pipenv shell`
 
 To run server, run the following
 
-`python manage.py runserver`
+    python manage.py runserver
 
-## Database
+## 2. Monitor Database (Optional)
 
-The database of this project is on the Azure cloud, which means you **DO NOT** need to setup local database and import data. You can access the database directly with password.
+You **DO NOT** need to set up your local database for this App.
 
-To monitor the database with pgAdmin
+The database of this project is on the Azure cloud and the data has already been imported.
 
-Click **Add New Server** on the main page of pgAdmin
+Also, the connection to the database is already hard-coded. 
 
-Name can be whatever
+To monitor the database with pgAdmin,
 
-Hostname/address is **imdb-midterm-postgres.postgres.database.azure.com**
+Click **Add New Server** on the main page of pgAdmin.
 
-The password of the DB server is **!Password**
+Name can be whatever.
+
+Hostname/address is **imdb-midterm-postgres.postgres.database.azure.com**.
+
+The password of the DB server is **!Password**.
 
 ![](https://i.gyazo.com/57f5a53d4438f17e927336bb41731acb.png)
 
-**DO NOT EXECUTE DJANGO MIGRATE WITHOUT PERMISSION**
+**DO NOT MODIFY/DJANGO MIGRATE TO DATABASE WITHOUT PERMISSION**
 
 **THIS IS A MUTUAL DATABASE**
+
+### 3. Start Frontend
+
+Prereqs: Nodejs
+
+#### Frontend 1: Svelte + Tailwind CSS
+
+After setting up the django server, run
+
+    cd frontend_svelte
+    npm install
+
+then,
+
+    npm run dev
+
+The webpage is on http://localhost:80
+
+#### Frontend 2: React
+
+After setting up the django server, run
+
+    cd frontend_syl
+    yarn
+
+then,
+
+    yarn start
+
+The webpage is on http://localhost:3000
 
 ## APIs
 
@@ -177,7 +215,7 @@ Response Sample:
 
 #### {host:port}/companystats/{company}
 
-Purpose: get gender/race/academic level stats of company
+Purpose: get gender, race, academic level, salary stats of company
 
 Request: GET http://127.0.0.1:8000/companystats/netflix
 
@@ -186,6 +224,7 @@ Response Sample:
 ````
 [
     {
+        "count": 61,
         "company": {
             "id": 33,
             "company_name": "Netflix",
@@ -201,54 +240,56 @@ Response Sample:
             "null": 26,
             "White": 24,
             "Asian": 6,
-            "Hispanic / Latino": 1,
-            "Two or More Races": 1,
-            "Black or African American": 3,
-            "Native Hawaiian or Other Pacific Islander": 0,
-            "American Indian or Alaska Native": 0
+            "Hispanic_Latino": 1,
+            "Two_or_More_Races": 1,
+            "Black_or_African_American": 3,
+            "Native_Hawaiian_or_Other_Pacific_Islander": 0,
+            "American_Indian_or_Alaska_Native": 0
         },
         "academic_level": {
             "null": 16,
             "Master": 14,
             "Bachelor": 23,
-            "Doctorate (PhD)": 4,
-            "Some college coursework completed": 2,
-            "High school or equivalent": 2,
-            "Technical or occupational certificate": 0,
-            "Associate Degree": 0
-        }
-    },
-    {
-        "company": {
-            "id": 1018,
-            "company_name": "Netflix Inc",
-            "icon_url": "https://logo.clearbit.com/netflix.com"
+            "Doctorate_PhD": 4,
+            "Some_college_coursework_completed": 2,
+            "High_school_or_equivalent": 2,
+            "Technical_or_occupational_certificate": 0,
+            "Associate_Degree": 0
         },
-        "gender": {
-            "null": 0,
-            "male": 1,
-            "female": 0,
-            "other": 0
-        },
-        "race": {
-            "null": 0,
-            "White": 0,
-            "Asian": 1,
-            "Hispanic / Latino": 0,
-            "Two or More Races": 0,
-            "Black or African American": 0,
-            "Native Hawaiian or Other Pacific Islander": 0,
-            "American Indian or Alaska Native": 0
-        },
-        "academic_level": {
-            "null": 0,
-            "Master": 0,
-            "Bachelor": 1,
-            "Doctorate (PhD)": 0,
-            "Some college coursework completed": 0,
-            "High school or equivalent": 0,
-            "Technical or occupational certificate": 0,
-            "Associate Degree": 0
+        "levels": [
+            {
+                "level_name": "No level",
+                "avg_salary": {
+                    "totalyearlycompensation__avg": 700.0
+                }
+            },
+            {
+                "level_name": "L5",
+                "avg_salary": {
+                    "totalyearlycompensation__avg": 562.5
+                }
+            },
+            {
+                "level_name": "Senior Software Engineer",
+                "avg_salary": {
+                    "totalyearlycompensation__avg": 558.5892857142857
+                }
+            },
+            {
+                "level_name": "L6",
+                "avg_salary": {
+                    "totalyearlycompensation__avg": 540.0
+                }
+            },
+            {
+                "level_name": "Only one level across Netflix",
+                "avg_salary": {
+                    "totalyearlycompensation__avg": 435.0
+                }
+            }
+        ],
+        "totalyearlycompensation": {
+            "totalyearlycompensation__avg": 558.7049180327868
         }
     }
 ]
@@ -323,18 +364,3 @@ Response Sample:
     },
 ]
 ```
-
-## To Start Frontend
-
-Prereqs: Nodejs
-
-After setting up the django server, run
-
-    cd frontend_svelte
-    npm install
-
-then,
-
-    npm run dev
-
-The webpage is on http://localhost:80
