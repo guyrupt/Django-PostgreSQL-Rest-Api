@@ -63,9 +63,11 @@ then,
 
     npm run dev
 
-The webpage is on http://localhost:80
+The webpage is on http://localhost:3001
 
 #### Frontend 2: React
+
+Prereqs: Nodejs, Yarn
 
 After setting up the django server, run
 
