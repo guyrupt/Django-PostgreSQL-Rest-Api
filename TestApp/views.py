@@ -254,11 +254,11 @@ def companystats(request, comp):
     race = {'null': r_null,
             'White': r_white,
             'Asian': r_asian,
-            'Hispanic / Latino': r_hisp,
-            'Two or More Races': r_two,
-            'Black or African American': r_black,
-            'Native Hawaiian or Other Pacific Islander': r_hawaii,
-            'American Indian or Alaska Native': r_indian}
+            'Hispanic_Latino': r_hisp,
+            'Two_or_More_Races': r_two,
+            'Black_or_African_American': r_black,
+            'Native_Hawaiian_or_Other_Pacific_Islander': r_hawaii,
+            'American_Indian_or_Alaska_Native': r_indian}
     json['race'] = race
     a_null = employee.filter(academic_level__acad_level=None).count()
     a_master = employee.filter(academic_level__acad_level='Master').count()
@@ -271,11 +271,11 @@ def companystats(request, comp):
     academic_level = {'null': a_null,
                       'Master': a_master,
                       'Bachelor': a_bach,
-                      'Doctorate (PhD)': a_phd,
-                      'Some college coursework completed': a_dropout,
-                      'High school or equivalent': a_highs,
-                      'Technical or occupational certificate': a_tech,
-                      'Associate Degree': a_asso}
+                      'Doctorate_PhD': a_phd,
+                      'Some_college_coursework_completed': a_dropout,
+                      'High_school_or_equivalent': a_highs,
+                      'Technical_or_occupational_certificate': a_tech,
+                      'Associate_Degree': a_asso}
     json['academic_level'] = academic_level
     levels = maxComp.level_set.distinct()
     levelSerial = LevelSerializer2(levels, many=True)
