@@ -25,7 +25,7 @@
 <h1 class="text-4xl text-center my-8 uppercase">SWE Explore</h1>
 <input class="w-full rounded-md text-lg p-4 border-2 border-gray-200" type="text" 
 bind:value={searchTerm} placeholder="Search location. Use either country or U.S. states abbreviation.">
-<table class="table-auto w-full p-4 border-2 bg-blue-300 text-gray-800 shadow-sm text-left rounded-md">
+<table class="table-auto w-full border-2 bg-blue-300 text-gray-800 shadow-sm text-left rounded-md items-center">
     <thead>
       <tr>
         <th class="w-1/5">Company</th>
