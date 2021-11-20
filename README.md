@@ -50,7 +50,9 @@ The password of the DB server is **!Password**.
 
 ### 3. Start Frontend
 
-Prereqs: Nodejs
+This project has two frontend with different features and UI. 
+
+Prereqs: Nodejs 14+
 
 #### Frontend 1: Svelte + Tailwind CSS
 
