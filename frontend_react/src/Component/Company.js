@@ -40,9 +40,10 @@ const Companies = ({ setCompany, setCheck }) => {
             option.children.toLowerCase().indexOf(input.toLowerCase()) >= 0
           }
         >
+        <Option value={null}>{"All"}</Option>
         {companies.map((company)=>{
             return <Option value={company['company_name']}>{company['company_name']}</Option>
-        })}
+        })}  
         </Select>
       );
 

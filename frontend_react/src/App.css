@@ -10,13 +10,13 @@
   font-size: 10px;
 }
 
-.schedule {
+.list {
   display: flex;
   flex-direction: column;
   justify-content: center;
   margin: 50px;
 }
 
-.schedule-header {
+.table-header {
   align-items: baseline;
 }

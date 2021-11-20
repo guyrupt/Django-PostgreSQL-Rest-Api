@@ -45,6 +45,7 @@ const Levels = ({ setLevel, setCheck , company, location}) => {
             option.children.toLowerCase().indexOf(input.toLowerCase()) >= 0
           }
         >
+        <Option value={null}>{"All"}</Option>
         {levels.map((level)=>{
             return <Option value={level['level_name']}>{level['level_name']}</Option>
         })}

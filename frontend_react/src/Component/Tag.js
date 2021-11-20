@@ -41,6 +41,7 @@ const Tags = ({ setTag, setCheck , company, location, level}) => {
             option.children.toLowerCase().indexOf(input.toLowerCase()) >= 0
           }
         >
+        <Option value={null}>{"All"}</Option>
         {tags.map((tag)=>{
             return <Option value={tag['tag_name']}>{tag['tag_name']}</Option>
         })}

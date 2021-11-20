@@ -38,13 +38,14 @@ const Locations = ({ setLocation, setCheck, company}) => {
         <Select
           showSearch
           style={{ width: 200 }}
-          defaultValue={null}
+          defaultValue={'All'}
           onChange={onChange}
           onSearch={onSearch}
           filterOption={(input, option) =>
             option.children.toLowerCase().indexOf(input.toLowerCase()) >= 0
           }
         >
+        <Option value={null}>{"All"}</Option>
         {locations.map((location)=>{
             return <Option value={location['location_name']}>{location['location_name']}</Option>
         })}
