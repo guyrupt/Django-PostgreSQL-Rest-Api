@@ -86,9 +86,9 @@ The webpage is on http://localhost:3000
 
 ### GET
 
-#### {host:port}/location/{location}
+#### ```/location/<location>```
 
-for _location_, type in USPS Abbreviation for states in U.S., other countries type in full country name.
+Params: for _location_, type in USPS Abbreviation for states in U.S., other countries type in full country name.
 
 Purpose: get all employee data in a specific location
 
@@ -135,8 +135,10 @@ Response Sample:
         }
     ]
 
-#### {host:port}/company/
+#### ```/company/```
 
+Params: none
+    
 Purpose: get all companies 
 
 Request: GET http://127.0.0.1:8000/company
@@ -159,29 +161,33 @@ Response Sample:
 ]
 ````
 
-#### {host:port}/locations/
+#### ```/companyloc/<company>```
 
+Params: company name for **company**
+    
 Purpose: get all location 
 
-Request: GET http://127.0.0.1:8000/locations
+Request: GET http://127.0.0.1:8000/companyloc/netflix
 
 Response Sample:
 
 ````
 [
     {
-        "location_name": "1A Coruna, GA, Spain"
+        "location_name": "Amsterdam, NH, Netherlands"
     },
     {
-        "location_name": "Aachen, NW, Germany"
+        "location_name": "Los Angeles, CA"
     },
 ]
 ````
-#### {host:port}/companylevels/{company}/
+#### ```companylevel/<company>/<location>```
 
-Purpose: get all levels of a specific company
+Params: company name for **company** and its **location**
+    
+Purpose: get all levels of a specific company in the location
 
-Request: GET http://127.0.0.1:8000/companylevels/Google
+Request: GET http://127.0.0.1:8000/companylevel/google/taiwan
 
 Response Sample:
 
@@ -197,27 +203,34 @@ Response Sample:
 
 ````
 
-#### {host:port}/tags/
+#### ```companytag/<company>/<location>/<level>```
 
-Purpose: get all tags 
+Params: company name for **company** and its **location** and the **level** of the job
+    
+Purpose: get all tags of a specific company in the location with certain level
 
-Request: GET http://127.0.0.1:8000/tags
+Request: GET http://127.0.0.1:8000/companytag/google/taiwan/l5
 
 Response Sample:
 
 ````
 [
     {
-        "tag_name": "5g"
+        "tag_name": "Data"
     },
     {
-        "tag_name": "aa"
+        "tag_name": "DevOps"
     },
+    {
+        "tag_name": "Full Stack"
+    }
 ]
 
 ````
 
-#### {host:port}/companystats/{company}
+#### ```/companystats/<company>```
+
+Params: company name for **company**
 
 Purpose: get gender, race, academic level, salary stats of company
 
@@ -301,7 +314,7 @@ Response Sample:
 
 ### POST
 
-#### {host:port}/search
+#### ```/search```
 
 Purpose: get list of employee with requested conditions
 
