@@ -5,7 +5,7 @@ import { useState, useEffect } from 'react';
 
 const Tab = ({ company, location, level, tag }) => {
   const [table, setTable] = useState([])
-
+  const [loading, setLoading] = useState(true)
   useEffect(() => {
       console.log(company)
       console.log(location)
@@ -20,6 +20,7 @@ const Tab = ({ company, location, level, tag }) => {
     .then((res) => { 
       setTable(res.data)
       console.log(res.data)
+      setLoading(false)
     })
     .catch((error) => { console.log(error) })
   },[company, location, level, tag])
@@ -65,7 +66,7 @@ const Tab = ({ company, location, level, tag }) => {
   ];
   
   
-  return <Table columns={columns} dataSource={table} />
+  return (loading?<h1>Loading...</h1>:<Table columns={columns} dataSource={table} />)
 }
 
 export default Tab
