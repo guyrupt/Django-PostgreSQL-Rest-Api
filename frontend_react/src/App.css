@@ -1,0 +1,22 @@
+.header {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin: 50px
+}
+
+.menu-set {
+  align-items: flex-end;
+  font-size: 10px;
+}
+
+.schedule {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  margin: 50px;
+}
+
+.schedule-header {
+  align-items: baseline;
+}
