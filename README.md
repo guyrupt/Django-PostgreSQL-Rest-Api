@@ -86,7 +86,7 @@ The webpage is on http://localhost:3000
 
 ### GET
 
-#### /location/<location>
+#### ```/location/<location>```
 
 Params: for _location_, type in USPS Abbreviation for states in U.S., other countries type in full country name.
 
@@ -135,7 +135,7 @@ Response Sample:
         }
     ]
 
-#### /company/
+#### ```/company/```
 
 Params: none
     
@@ -161,7 +161,7 @@ Response Sample:
 ]
 ````
 
-#### /companyloc/<company>
+#### ```/companyloc/<company>```
 
 Params: company name for **company**
     
@@ -181,7 +181,7 @@ Response Sample:
     },
 ]
 ````
-#### companylevel/<company>/<location>
+#### ```companylevel/<company>/<location>```
 
 Params: company name for **company** and its **location**
     
@@ -203,7 +203,7 @@ Response Sample:
 
 ````
 
-#### companytag/<company>/<location>/<level>
+#### ```companytag/<company>/<location>/<level>```
 
 Params: company name for **company** and its **location** and the **level** of the job
     
@@ -228,7 +228,7 @@ Response Sample:
 
 ````
 
-#### /companystats/<company>
+#### ```/companystats/<company>```
 
 Params: company name for **company**
 
@@ -314,7 +314,7 @@ Response Sample:
 
 ### POST
 
-#### /search
+#### ```/search```
 
 Purpose: get list of employee with requested conditions
 
