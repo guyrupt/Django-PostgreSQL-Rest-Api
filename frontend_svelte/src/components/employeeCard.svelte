@@ -26,7 +26,13 @@ shadow-sm hover:shadow-md flex flex-col items-center"href={`/employee/${employee
       <tr>
         <td>{employee.company.company}<p>{employee.location}</p></td>
         <td>{employee.tag}</td>
-        <td></td>
+        <td>
+          {#if employee.remote}
+	          <p>remote</p>
+          {:else}
+            <p>not remote</p>
+          {/if}
+        </td>
         <td>{employee.gender} | {employee.race}</td>
         <td>{employee.base_salary} | {employee.stockgrantvalue} | {employee.bonus}</td>
       </tr>

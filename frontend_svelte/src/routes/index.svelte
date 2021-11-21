@@ -34,7 +34,7 @@ bind:value={temp} placeholder="Search location. Use either country or U.S. state
       <tr>
         <th class="w-1/5">Company</th>
         <th class="w-1/5">Level Name</th>
-        <th class="w-1/5">Years of Experience</th>
+        <th class="w-1/5">Exp. Company/Total (yr)</th>
         <th class="w-1/5">Academic Level</th>
         <th class="w-1/5">Total Compensation ($k/yr)</th>
       </tr>
@@ -43,7 +43,7 @@ bind:value={temp} placeholder="Search location. Use either country or U.S. state
       <tr>
         <td>Location</td>
         <td>Tag</td>
-        <td>At Company | Total</td>
+        <td>Remote Status</td>
         <td>Gender | Race</td>
         <td>Base | Stock | Bonus</td>
       </tr>
