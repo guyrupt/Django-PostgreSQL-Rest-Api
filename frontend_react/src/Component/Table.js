@@ -44,7 +44,7 @@ const Tab = ({ company, location, level, tag }) => {
       dataIndex: 'level',
     },
     {
-        title: 'Years Of Experience',
+        title: 'Years Of Experience (yrs)',
         dataIndex: 'yearsofexperience',
     },
     {
@@ -52,16 +52,25 @@ const Tab = ({ company, location, level, tag }) => {
       dataIndex: 'tag',
     },
     {
-      title: 'Base Salary',
+      title: 'Base Salary ($K USD)',
       dataIndex: 'base_salary',
     },
     {
-        title: 'Stock Grant Value',
+        title: 'Stock Grant Value ($K USD)',
         dataIndex: 'stockgrantvalue',
     },
     {
-        title: 'Bonus',
+        title: 'Bonus ($k USD)',
         dataIndex: 'bonus',
+    },
+    {
+      title: 'Total Yearly Compensation($K USD)',
+      dataIndex: 'totalyearlycompensation'
+    },
+    {
+      title: 'Remote?',
+      dataIndex: 'remote',
+      render: remote => (remote? <p>Yes</p>:<p>No</p>)
     },
   ];
   
