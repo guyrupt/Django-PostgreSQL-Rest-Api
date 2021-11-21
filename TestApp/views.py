@@ -200,13 +200,17 @@ def companyloc_search(request, comp):
 
 @api_view(['GET'])
 def companylevel_search(request, comp, loc):
-    levels = Level.objects.filter(company__in=
-                                  Company.objects.filter(company_name__icontains=
-                                                         comp).filter(location__location_name__icontains=
-                                                                      loc)).distinct('level_name').order_by(
-        'level_name')
-    serializer = LevelSerializer(levels, many=True)
-    return Response(serializer.data)
+    # order_by(
+    #     'level_name')
+    emp = Employee.objects.filter(level__company__company_name__icontains=
+                                  comp).filter(location__location_name=
+                                               loc).distinct('level')
+    levels = []
+    for l in emp.iterator():
+        lj = {'level_name': l.level.__dict__['level_name']}
+        levels.append(lj)
+    levels = sorted(levels, key=lambda i: i['level_name'])
+    return Response(levels)
 
 
 @api_view(['GET'])
@@ -216,11 +220,10 @@ def companytag_search(request, comp, loc, level):
                                                loc).filter(level__level_name__icontains=
                                                            level).distinct('tag')
     tag = []
-    print(emp.count())
     for t in emp.iterator():
         tagj = {'tag_name': t.tag.__dict__['tag_name']}
         tag.append(tagj)
-        # print(t.tag.__dict__)
+    tag = sorted(tag, key=lambda i: i['tag_name'])
     return Response(tag)
 
 
