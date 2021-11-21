@@ -90,13 +90,13 @@ def loc_search2(request):
     return Response(serializer.data)
 
 
-@api_view(['GET'])
-def companylevel_search(request, comp):
-    levels = Level.objects.filter(company__in=
-                                  Company.objects.filter(company_name__icontains=comp
-                                                         )).distinct('level_name').order_by('level_name')
-    serializer = LevelSerializer(levels, many=True)
-    return Response(serializer.data)
+# @api_view(['GET'])
+# def companylevel_search(request, comp):
+#     levels = Level.objects.filter(company__in=
+#                                   Company.objects.filter(company_name__icontains=comp
+#                                                          )).distinct('level_name').order_by('level_name')
+#     serializer = LevelSerializer(levels, many=True)
+#     return Response(serializer.data)
 
 
 @api_view(['GET'])
@@ -111,6 +111,7 @@ def tag_search(request):
 def all_search(request):
     if 'application/json' not in request.content_type:
         return Response("Content type should be 'application/json'.", status=status.HTTP_400_BAD_REQUEST)
+    print(request.data)
     try:
         company = request.data['company']
         location = request.data['location']
@@ -210,14 +211,17 @@ def companylevel_search(request, comp, loc):
 
 @api_view(['GET'])
 def companytag_search(request, comp, loc, level):
-    tag = Tag.objects.filter(company__in=
-                             Company.objects.filter(company_name__icontains=
-                                                    comp).filter(location__location_name__icontains=
-                                                                 loc)).filter(employee__level__level_name=
-                                                                              level).distinct('tag_name').order_by(
-        'tag_name')
-    serializer = TagSerializer(tag, many=True)
-    return Response(serializer.data)
+    emp = Employee.objects.filter(level__company__company_name__icontains=
+                                  comp).filter(location__location_name=
+                                               loc).filter(level__level_name__icontains=
+                                                           level).distinct('tag')
+    tag = []
+    print(emp.count())
+    for t in emp.iterator():
+        tagj = {'tag_name': t.tag.__dict__['tag_name']}
+        tag.append(tagj)
+        # print(t.tag.__dict__)
+    return Response(tag)
 
 
 @api_view(['GET'])
