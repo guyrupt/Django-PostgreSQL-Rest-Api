@@ -54,6 +54,7 @@ class EmployeeSerializer(serializers.ModelSerializer):
     gender = serializers.CharField()
     race = serializers.CharField()
     academic_level = serializers.CharField()
+    remote = serializers.BooleanField()
 
     class Meta:
         model = Employee
