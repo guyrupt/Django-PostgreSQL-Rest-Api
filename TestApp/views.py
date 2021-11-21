@@ -90,13 +90,13 @@ def loc_search2(request):
     return Response(serializer.data)
 
 
-@api_view(['GET'])
-def companylevel_search(request, comp):
-    levels = Level.objects.filter(company__in=
-                                  Company.objects.filter(company_name__icontains=comp
-                                                         )).distinct('level_name').order_by('level_name')
-    serializer = LevelSerializer(levels, many=True)
-    return Response(serializer.data)
+# @api_view(['GET'])
+# def companylevel_search(request, comp):
+#     levels = Level.objects.filter(company__in=
+#                                   Company.objects.filter(company_name__icontains=comp
+#                                                          )).distinct('level_name').order_by('level_name')
+#     serializer = LevelSerializer(levels, many=True)
+#     return Response(serializer.data)
 
 
 @api_view(['GET'])
@@ -111,6 +111,7 @@ def tag_search(request):
 def all_search(request):
     if 'application/json' not in request.content_type:
         return Response("Content type should be 'application/json'.", status=status.HTTP_400_BAD_REQUEST)
+    print(request.data)
     try:
         company = request.data['company']
         location = request.data['location']
@@ -199,25 +200,31 @@ def companyloc_search(request, comp):
 
 @api_view(['GET'])
 def companylevel_search(request, comp, loc):
-    levels = Level.objects.filter(company__in=
-                                  Company.objects.filter(company_name__icontains=
-                                                         comp).filter(location__location_name__icontains=
-                                                                      loc)).distinct('level_name').order_by(
-        'level_name')
-    serializer = LevelSerializer(levels, many=True)
-    return Response(serializer.data)
+    # order_by(
+    #     'level_name')
+    emp = Employee.objects.filter(level__company__company_name__icontains=
+                                  comp).filter(location__location_name=
+                                               loc).distinct('level')
+    levels = []
+    for l in emp.iterator():
+        lj = {'level_name': l.level.__dict__['level_name']}
+        levels.append(lj)
+    levels = sorted(levels, key=lambda i: i['level_name'])
+    return Response(levels)
 
 
 @api_view(['GET'])
 def companytag_search(request, comp, loc, level):
-    tag = Tag.objects.filter(company__in=
-                             Company.objects.filter(company_name__icontains=
-                                                    comp).filter(location__location_name__icontains=
-                                                                 loc)).filter(employee__level__level_name=
-                                                                              level).distinct('tag_name').order_by(
-        'tag_name')
-    serializer = TagSerializer(tag, many=True)
-    return Response(serializer.data)
+    emp = Employee.objects.filter(level__company__company_name__icontains=
+                                  comp).filter(location__location_name=
+                                               loc).filter(level__level_name__icontains=
+                                                           level).distinct('tag')
+    tag = []
+    for t in emp.iterator():
+        tagj = {'tag_name': t.tag.__dict__['tag_name']}
+        tag.append(tagj)
+    tag = sorted(tag, key=lambda i: i['tag_name'])
+    return Response(tag)
 
 
 @api_view(['GET'])
