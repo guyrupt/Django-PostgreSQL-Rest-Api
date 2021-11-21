@@ -60,7 +60,7 @@ const Tab = ({ company, location, level, tag }) => {
         dataIndex: 'stockgrantvalue',
     },
     {
-        title: 'Bonus ($k USD)',
+        title: 'Bonus ($K USD)',
         dataIndex: 'bonus',
     },
     {
