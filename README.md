@@ -1,5 +1,7 @@
 # SWE EXPLORE APP
 
+[Demo and Introduction Video](https://youtu.be/bLGcbwwb0AQ) (Chinese)
+
 Prereqs: Python 3.9
 
 ## Quick Installation Guide
