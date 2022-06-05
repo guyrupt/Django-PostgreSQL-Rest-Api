@@ -42,8 +42,6 @@ Name can be whatever.
 
 Hostname/address is **imdb-midterm-postgres.postgres.database.azure.com**.
 
-The password of the DB server is **!Password**.
-
 ![](https://i.gyazo.com/57f5a53d4438f17e927336bb41731acb.png)
 
 **DO NOT MODIFY/DJANGO MIGRATE TO DATABASE WITHOUT PERMISSION**
