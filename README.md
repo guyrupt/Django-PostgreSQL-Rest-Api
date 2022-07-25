@@ -2,7 +2,7 @@
 
 [Demo and Introduction Video](https://youtu.be/bLGcbwwb0AQ) (Chinese)
 
-Prereqs: Python 3.9
+Prereqs: Python 3.9, pg_config
 
 ## Quick Installation Guide
 
