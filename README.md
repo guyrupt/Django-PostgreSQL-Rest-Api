@@ -2,6 +2,8 @@
 
 [Demo and Introduction Video](https://youtu.be/bLGcbwwb0AQ) (Chinese)
 
+[Selfhosted Website](https://projectdemo.minghsuanhsieh.xyz)
+
 Prereqs: Python 3.9, pg_config
 
 ## Quick Installation Guide
